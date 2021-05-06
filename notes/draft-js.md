@@ -1,0 +1,4 @@
+- 간단한 사용자 입력의 경우 state와 input의 onChange에 setState를 사용하는 경우 사용자의 입력을 controll 할 수 있다.
+- 하지만 rich text의 경우에는(editor에서 보여지는 input들을 rich text라고 부름) 단순한 plaintext로는 editor의 상태를 나타낼 수 없다.
+- 그래서 draftjs는 immutable한 객체인 EditorState를 만듦
+- EditorState는 현재 editor의 상태의 snapshot이고 이는 컨텐츠를 포함해서, cursor, undo/redo history를 담고 있다.
