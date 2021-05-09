@@ -1,7 +1,12 @@
-import { useState, useCallback } from 'react' 
+import { useState } from 'react'
 import styled from '@emotion/styled'
-import EditableBlock from './EditableBlock'
-
+import {
+  Editor,
+  EditorState,
+  convertToRaw,
+  getDefaultKeyBinding
+  // KeyBindingUtil
+} from 'draft-js'
 
 const Block = styled.div`
   width: 800px;
@@ -9,17 +14,29 @@ const Block = styled.div`
 `
 
 const MyEditor = () => {
-  const [blocks, setBlocks] = useState([1, 2])
+  const [editorState, setEditorState] = useState(() =>
+    EditorState.createEmpty()
+  )
 
-  const handleEnterKeyDownHandle = useCallback((event) => {
-    console.log('enter key down')
-  },[])
-  
+  function myblockRenderer (contentBlock) {
+    const type = contentBlock.getType()
+    const text = contentBlock.getText()
+    console.log('text: ', text)
+    console.log(type)
+  }
+
+  function handleEditorChange (editorState) {
+    console.log(convertToRaw(editorState.getCurrentContent()))
+    setEditorState(editorState)
+  }
+
   return (
     <Block>
-      {blocks.map(block => 
-        <EditableBlock onEnterKeyDownHandler={handleEnterKeyDownHandle}/>
-      )}
+      <Editor
+        editorState={editorState}
+        onChange={handleEditorChange}
+        blockRendererFn={myblockRenderer}
+      />
     </Block>
   )
 }
